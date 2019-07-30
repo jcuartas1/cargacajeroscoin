@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- DarkTheme -->
+    <color name="colorPrimary">#1F1B24</color>
+    <color name="colorPrimaryDark">#121212 </color>121212
+    <color name="colorAccent">#BB86FC</color>
+    <color name="colorAccentDark">#994af1</color>
+
+    <!--
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>-->
+
+    <color name="colorPrimaryText">#FFFFFF</color>
+    <color name="colorSecondaryText">#BDBDBD</color>
+    <color name="colorGooglePlus">#b71c1c</color>
+    <color name="colorGooglePlusDark">#7f0000</color>
+</resources>

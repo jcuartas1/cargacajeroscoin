@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark"
+        android:fillViewport="true"
+        tools:context=".ui.login.LoginActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true">
+
+        <EditText
+                android:id="@+id/editTextEmail"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/login_edit_text_height"
+                android:paddingLeft="@dimen/login_space"
+                android:paddingRight="@dimen/login_space"
+                android:background="@drawable/edittext_rounded"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="32dp"
+                android:inputType="textEmailAddress"
+                android:hint="@string/login_email"
+                android:textSize="@dimen/login_text_size" android:layout_marginBottom="24dp"
+                app:layout_constraintBottom_toTopOf="@+id/editTextPassword"/>
+
+        <EditText
+                android:id="@+id/editTextPassword"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/login_edit_text_height"
+                android:paddingLeft="@dimen/login_space"
+                android:paddingRight="@dimen/login_space"
+                android:background="@drawable/edittext_rounded"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="32dp"
+                android:inputType="textPassword"
+                android:hint="@string/login_password"
+                android:textSize="@dimen/login_text_size"
+                app:layout_constraintHorizontal_bias="0.0"
+                android:layout_marginBottom="24dp"
+                app:layout_constraintBottom_toTopOf="@+id/editTextConfirmPass"/>
+
+        <EditText
+                android:id="@+id/editTextConfirmPass"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/login_edit_text_height"
+                android:paddingLeft="@dimen/login_space"
+                android:paddingRight="@dimen/login_space"
+                android:background="@drawable/edittext_rounded"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="32dp"
+                android:inputType="textPassword"
+                android:hint="@string/login_confirm_password"
+                android:textSize="@dimen/login_text_size"
+                app:layout_constraintHorizontal_bias="0.0"
+                android:layout_marginBottom="24dp"
+                app:layout_constraintBottom_toTopOf="@+id/btn_sUp"/>
+
+        <Button
+                android:id="@+id/btn_sUp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/login_button_xl_height"
+                android:text="@string/login_sing_up"
+                android:textColor="@color/common_google_signin_btn_text_dark"
+                android:textSize="@dimen/login_text_xl_size"
+                android:background="@drawable/button_ripple_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="32dp"
+                app:layout_constraintBottom_toTopOf="@+id/btnGolongIn"
+                android:layout_marginBottom="64dp"/>
+
+
+        <Button
+                android:id="@+id/btnGolongIn"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/login_button_xl_height"
+                android:background="@drawable/button_ripple"
+                android:text="@string/login_go_login"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/login_text_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "730654376106",
+    "firebase_url": "https://atmdatabase-18a4d.firebaseio.com",
+    "project_id": "atmdatabase-18a4d",
+    "storage_bucket": "atmdatabase-18a4d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:730654376106:android:1106399ed0449d64",
+        "android_client_info": {
+          "package_name": "com.coinlogiq.updateatmsproyect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "730654376106-lh1ph0a2k1guqpt9726aidf2ntodal0q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.coinlogiq.updateatmsproyect",
+            "certificate_hash": "396032d74a00cc7f952450485d2a4f514d1147b7"
+          }
+        },
+        {
+          "client_id": "730654376106-a4ubj21hsabdpme2j8s61lvoonv2hue6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkMuTSRJ6Tx3xZabTCWmgcIn1kQx7POgo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "730654376106-a4ubj21hsabdpme2j8s61lvoonv2hue6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
