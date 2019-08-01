@@ -13,4 +13,16 @@
     <string name="login_create_account">Create new account</string>
     <string name="login_go_login">Go back to Login</string>
 
+
+    <!-- TODO: Bottom Navition Menu-->
+    <string name="navigation_bottom_inf">Info</string>
+    <string name="navigation_bottom_form">Form</string>
+    <string name="navigation_bottom_chat">Chat</string>
+    <string name="navigation_bottom_rates">Rates</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="text_hint_chat">Type Here a message..."</string>
+
 </resources>

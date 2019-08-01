@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "730654376106",
-    "firebase_url": "https://atmdatabase-18a4d.firebaseio.com",
-    "project_id": "atmdatabase-18a4d",
-    "storage_bucket": "atmdatabase-18a4d.appspot.com"
+    "project_number": "534173289735",
+    "firebase_url": "https://loadatm-aa395.firebaseio.com",
+    "project_id": "loadatm-aa395",
+    "storage_bucket": "loadatm-aa395.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:730654376106:android:1106399ed0449d64",
+        "mobilesdk_app_id": "1:534173289735:android:1106399ed0449d64",
         "android_client_info": {
           "package_name": "com.coinlogiq.updateatmsproyect"
         }
       },
       "oauth_client": [
         {
-          "client_id": "730654376106-lh1ph0a2k1guqpt9726aidf2ntodal0q.apps.googleusercontent.com",
+          "client_id": "534173289735-nembrrl6fdqp0sqspprqrcj8c84pnkms.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.coinlogiq.updateatmsproyect",
@@ -23,20 +23,20 @@
           }
         },
         {
-          "client_id": "730654376106-a4ubj21hsabdpme2j8s61lvoonv2hue6.apps.googleusercontent.com",
+          "client_id": "534173289735-co1e3okpmu7esg4ptr7ba1ig1r55m2l1.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCkMuTSRJ6Tx3xZabTCWmgcIn1kQx7POgo"
+          "current_key": "AIzaSyAPpUi3Ql7xWX6ZDQKf9eJO6ZFRGkQIHQA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "730654376106-a4ubj21hsabdpme2j8s61lvoonv2hue6.apps.googleusercontent.com",
+              "client_id": "534173289735-co1e3okpmu7esg4ptr7ba1ig1r55m2l1.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

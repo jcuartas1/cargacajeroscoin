@@ -6,6 +6,7 @@
     <color name="colorPrimaryDark">#121212 </color>121212
     <color name="colorAccent">#BB86FC</color>
     <color name="colorAccentDark">#994af1</color>
+    <color name="colorChatBg">#CCC</color>
 
     <!--
     <color name="colorPrimary">#008577</color>

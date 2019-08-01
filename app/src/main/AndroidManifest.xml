@@ -9,21 +9,29 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".ui.login.ForgotPassActivity"
-                  android:windowSoftInputMode="adjustPan">
+        <activity android:name=".ui.MainActivity">
         </activity>
-        <activity android:name=".ui.sing.SingUp"
-                  android:windowSoftInputMode="adjustPan">
-        </activity>
-
-        <activity android:name=".ui.login.LoginActivity"
-                  android:windowSoftInputMode="adjustPan"
-                  android:theme="@style/NoPreview">
+        <activity
+                android:name=".ui.MainEmptyActivity"
+                android:theme="@android:style/Theme.NoDisplay">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity
+                android:name="com.coinlogiq.updateatmsproyect.ui.activities.login.ForgotPassActivity"
+                android:windowSoftInputMode="adjustPan">
+        </activity>
+        <activity
+                android:name="com.coinlogiq.updateatmsproyect.ui.activities.sing.SingUp"
+                android:windowSoftInputMode="adjustPan">
+        </activity>
+        <activity
+                android:name="com.coinlogiq.updateatmsproyect.ui.activities.login.LoginActivity"
+                android:theme="@style/NoPreview"
+                android:windowSoftInputMode="adjustPan">
         </activity>
     </application>
 

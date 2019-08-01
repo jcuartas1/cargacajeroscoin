@@ -1,4 +1,4 @@
-package com.coinlogiq.updateatmsproyect.ui.sing
+package com.coinlogiq.updateatmsproyect.ui.activities.sing
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import com.coinlogiq.updateatmsproyect.R
 import com.coinlogiq.updateatmsproyect.ui.extensions.*
-import com.coinlogiq.updateatmsproyect.ui.login.LoginActivity
+import com.coinlogiq.updateatmsproyect.ui.activities.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_sing_up.*
 

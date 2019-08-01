@@ -1,4 +1,4 @@
-package com.coinlogiq.updateatmsproyect.ui.login
+package com.coinlogiq.updateatmsproyect.ui.activities.login
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

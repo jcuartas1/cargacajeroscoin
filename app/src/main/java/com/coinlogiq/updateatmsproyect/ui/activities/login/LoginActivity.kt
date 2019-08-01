@@ -1,4 +1,4 @@
-package com.coinlogiq.updateatmsproyect.ui.login
+package com.coinlogiq.updateatmsproyect.ui.activities.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,8 +6,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.coinlogiq.updateatmsproyect.R
 import com.coinlogiq.updateatmsproyect.ui.extensions.*
-import com.coinlogiq.updateatmsproyect.ui.sing.SingUp
-import com.google.android.gms.auth.api.Auth
+import com.coinlogiq.updateatmsproyect.ui.activities.sing.SingUp
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -41,6 +40,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
             .requestEmail()
             .build()
         //789596445938-45vqo9ppjtmaf39uiih5mromvld0rjn4.apps.googleusercontent.com
+        //730654376106-a4ubj21hsabdpme2j8s61lvoonv2hue6.apps.googleusercontent.com
         Log.d("Token",gso.serverClientId)
 
         mGoogleApiClient = GoogleSignIn.getClient(this, gso)
