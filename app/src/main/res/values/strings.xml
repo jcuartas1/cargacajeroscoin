@@ -29,4 +29,9 @@
     <string name="info_no_name">Name is not available</string>
 
     <string name="options_menu_sign_out">Sign Out</string>
+
+    <string name="dialog_title">Rate the App!</string>
+    <string name="dialog_edit_text">Leave your feedback</string>
+    <string name="dialog_ok">Rate</string>
+    <string name="dialog_cancel">Cancel</string>
 </resources>
