@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.coinlogiq.updateatmsproyect.R
+import com.coinlogiq.updateatmsproyect.ui.MainActivity
 import com.coinlogiq.updateatmsproyect.ui.extensions.*
 import com.coinlogiq.updateatmsproyect.ui.activities.sing.SingUp
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -96,7 +97,9 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
             .addOnCompleteListener(this) { task ->
                 if(task.isSuccessful){
                     if(mAuth.currentUser!!.isEmailVerified){
-                        toast("User is now logged in")
+                        gotoActivity<MainActivity>{
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        }
                     }else{
                         toast("User must confirm email first")
                     }
