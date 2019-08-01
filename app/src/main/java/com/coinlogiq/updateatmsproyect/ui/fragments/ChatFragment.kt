@@ -73,9 +73,9 @@ class ChatFragment : Fragment() {
 
     private fun setUpChatBtn(){
         _view.buttonSend.setOnClickListener {
-            val messaText = editTextMessage.text.toString()
+            val messaText = _view.editTextMessage.text.toString()
             if(messaText.isNotEmpty()){
-                val photo = currentUser.photoUrl?.let { currentUser.photoUrl.toString() } ?: run {""}
+                val photo = currentUser.photoUrl?.let { currentUser.photoUrl.toString() } ?: run { "" }
                 val message = Message(currentUser.uid,messaText,photo,Date())
                 saveMessage(message)
                 _view.editTextMessage.setText("")
@@ -120,9 +120,9 @@ class ChatFragment : Fragment() {
         })
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
         chatSubscription?.remove()
-        super.onDestroy()
+        super.onDestroyView()
     }
 
 }

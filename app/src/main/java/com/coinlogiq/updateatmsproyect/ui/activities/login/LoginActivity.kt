@@ -32,6 +32,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
 
     private val mAuth : FirebaseAuth by lazy{ FirebaseAuth.getInstance()}
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_activity)
@@ -86,7 +87,6 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
         }
 
     }
-
     private fun signIn() {
         val signInIntent = mGoogleApiClient.signInIntent
         startActivityForResult(signInIntent, RC_GOOGLE_SING_IN)
@@ -131,9 +131,6 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-
-
         if(requestCode == RC_GOOGLE_SING_IN){
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
 
@@ -145,8 +142,6 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
             }
 
         }
-
-
         /*if(requestCode == RC_GOOGLE_SING_IN){
             Log.d("RequestCode",requestCode.toString())
             val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
