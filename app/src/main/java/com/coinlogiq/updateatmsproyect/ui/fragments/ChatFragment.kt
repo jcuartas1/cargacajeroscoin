@@ -14,14 +14,12 @@ import com.coinlogiq.updateatmsproyect.ui.adapters.ChatAdapter
 import com.coinlogiq.updateatmsproyect.ui.extensions.toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.*
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.fragment_chat.view.*
 import kotlinx.android.synthetic.main.fragment_chat.view.editTextMessage
 import java.util.*
+import java.util.EventListener
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
@@ -37,6 +35,7 @@ class ChatFragment : Fragment() {
     private val store: FirebaseFirestore = FirebaseFirestore.getInstance()
     private lateinit var chatDBRef: CollectionReference
 
+    private var chatSubscription: ListenerRegistration? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -100,7 +99,10 @@ class ChatFragment : Fragment() {
     }
 
     private fun subscribeToChatMessages(){
-        chatDBRef.addSnapshotListener(object: EventListener, com.google.firebase.firestore.EventListener<QuerySnapshot>{
+        chatSubscription = chatDBRef
+            .orderBy("sentAt", Query.Direction.DESCENDING)
+            .limit(100)
+            .addSnapshotListener(object: EventListener, com.google.firebase.firestore.EventListener<QuerySnapshot>{
             override fun onEvent(snapshot: QuerySnapshot?, exception: FirebaseFirestoreException?) {
                 exception?.let {
                     activity!!.toast("Exception!")
@@ -109,11 +111,17 @@ class ChatFragment : Fragment() {
                 snapshot?.let {
                     messaList.clear()
                     val messages = it.toObjects(Message::class.java)
-                    messaList.addAll(messages)
+                    messaList.addAll(messages.asReversed())
                     adapter.notifyDataSetChanged()
+                    _view.recyclerView.smoothScrollToPosition(messaList.size)
                 }
             }
         })
+    }
+
+    override fun onDestroy() {
+        chatSubscription?.remove()
+        super.onDestroy()
     }
 
 }
