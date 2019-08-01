@@ -10,8 +10,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.coinlogiq.updateatmsproyect.R
 import com.coinlogiq.updateatmsproyect.model.Message
+import com.coinlogiq.updateatmsproyect.model.TotalMessagesEvent
 import com.coinlogiq.updateatmsproyect.ui.adapters.ChatAdapter
 import com.coinlogiq.updateatmsproyect.ui.extensions.toast
+import com.coinlogiq.updateatmsproyect.utils.RxBus
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
@@ -115,6 +117,7 @@ class ChatFragment : Fragment() {
                     messaList.addAll(messages.asReversed())
                     adapter.notifyDataSetChanged()
                     _view.recyclerView.smoothScrollToPosition(messaList.size)
+                    RxBus.publish(TotalMessagesEvent(messaList.size))
                 }
             }
         })

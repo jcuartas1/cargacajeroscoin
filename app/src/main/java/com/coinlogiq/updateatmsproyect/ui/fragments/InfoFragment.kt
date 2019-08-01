@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.coinlogiq.updateatmsproyect.R
+import com.coinlogiq.updateatmsproyect.model.TotalMessagesEvent
 import com.coinlogiq.updateatmsproyect.ui.extensions.toast
 import com.coinlogiq.updateatmsproyect.utils.CircleTransform
+import com.coinlogiq.updateatmsproyect.utils.RxBus
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
@@ -39,7 +41,10 @@ class InfoFragment : Fragment() {
         setUpCurrentUserInfoUI()
 
         //Firebase Style
-        subscribeTotalMessagesFirebaseStyle()
+        //subscribeTotalMessagesFirebaseStyle()
+
+        //Total message rx bus reactive android
+        subscribeTotalMessagesEventBusReactiveStyle()
 
         return _view
     }
@@ -76,6 +81,13 @@ class InfoFragment : Fragment() {
                 snapshot?.let { _view.textViewInfoTotalMessages.text = "${it.size()}" }
             }
         })
+    }
+
+    private fun subscribeTotalMessagesEventBusReactiveStyle(){
+        RxBus.listen(TotalMessagesEvent::class.java).subscribe({
+            _view.textViewInfoTotalMessages.text = "${it.total}"
+        })
+
     }
 
     override fun onDestroyView() {
