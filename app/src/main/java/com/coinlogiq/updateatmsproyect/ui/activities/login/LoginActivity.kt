@@ -8,6 +8,7 @@ import com.coinlogiq.updateatmsproyect.R
 import com.coinlogiq.updateatmsproyect.ui.MainActivity
 import com.coinlogiq.updateatmsproyect.ui.extensions.*
 import com.coinlogiq.updateatmsproyect.ui.activities.sing.SingUp
+import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -26,27 +27,15 @@ const val RC_GOOGLE_SING_IN = 99
 class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener {
 
 
-    //private val mGoogleApiClient : GoogleApiClient by lazy {getGoogleApliClient()}
+    private val mGoogleApiClient : GoogleApiClient by lazy {getGoogleApiClient()}
 
-    private lateinit var mGoogleApiClient : GoogleSignInClient
+    //private lateinit var mGoogleApiClient : GoogleSignInClient
 
     private val mAuth : FirebaseAuth by lazy{ FirebaseAuth.getInstance()}
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_activity)
-
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-        //789596445938-45vqo9ppjtmaf39uiih5mromvld0rjn4.apps.googleusercontent.com
-        //730654376106-a4ubj21hsabdpme2j8s61lvoonv2hue6.apps.googleusercontent.com
-        Log.d("Token",gso.serverClientId)
-
-        mGoogleApiClient = GoogleSignIn.getClient(this, gso)
-
 
         btn_login.setOnClickListener {
             val email = editTextEmail.text.toString()
@@ -78,18 +67,35 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
         }
 
         btnLoginGoogle.setOnClickListener {
-
-            signIn()
-
-            // val signInIntent = mGoogleApiClient.signInIntent
-            //startActivityForResult(signInIntent,RC_GOOGLE_SING_IN)
-
+            val signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
+            startActivityForResult(signInIntent, RC_GOOGLE_SING_IN)
         }
 
     }
-    private fun signIn() {
-        val signInIntent = mGoogleApiClient.signInIntent
-        startActivityForResult(signInIntent, RC_GOOGLE_SING_IN)
+
+    private fun getGoogleApiClient(): GoogleApiClient {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        return GoogleApiClient.Builder(this)
+            .enableAutoManage(this, this)
+            .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+            .build()
+    }
+
+
+    private fun logInByGoogleAccuntIntoFirebase(googleAccount: GoogleSignInAccount){
+        val credential = GoogleAuthProvider.getCredential(googleAccount.idToken, null)
+        mAuth.signInWithCredential(credential).addOnCompleteListener(this){
+            if (mGoogleApiClient.isConnected) {
+                Auth.GoogleSignInApi.signOut(mGoogleApiClient)
+            }
+            gotoActivity<MainActivity> {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+        }
     }
 
     private fun logInByEmail(email:String, pass:String){
@@ -109,52 +115,21 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
             }
     }
 
-    private fun logInByGoogleAccuntIntoFirebase(googleAccount: GoogleSignInAccount){
-        val credential = GoogleAuthProvider.getCredential(googleAccount.idToken, null)
-        mAuth.signInWithCredential(credential).addOnCompleteListener(this){
-            toast("Signed By Google !!")
-        }
-    }
-
-    /*private fun getGoogleApliClient() : GoogleApiClient {
-
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-
-        return GoogleApiClient.Builder(this)
-            .enableAutoManage(this,this)
-            .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-            .build()
-    }*/
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == RC_GOOGLE_SING_IN){
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
 
-            try {
-                val account = task.getResult(ApiException::class.java)
-                logInByGoogleAccuntIntoFirebase(account!!)
-            }catch (e: ApiException){
-                Log.w("Google sign in failed", e)
-            }
-
-        }
-        /*if(requestCode == RC_GOOGLE_SING_IN){
-            Log.d("RequestCode",requestCode.toString())
+        if (requestCode == RC_GOOGLE_SING_IN) {
             val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
-            if(result.isSuccess){
-                Log.d("SingGoogle",result.toString())
+            if (result.isSuccess) {
                 val account = result.signInAccount
                 logInByGoogleAccuntIntoFirebase(account!!)
             }else{
-                toast("ERROR LOG")
+                Log.d("Google Connect",result.status.toString())
+                //Log.d("",)
             }
-        }else{
-            toast("ERROR REQUEST CODE - $requestCode")
-        }*/
+        }
+
     }
 
     override fun onConnectionFailed(p0: ConnectionResult) {
