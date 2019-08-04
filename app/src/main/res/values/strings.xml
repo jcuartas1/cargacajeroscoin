@@ -47,6 +47,7 @@
     <string name="input_id_owner">Ingrese ID del Cajero: ejemplo DL6Z-79</string>
     <string name="text_laltitud_example">Latitud: -74.345677</string>
     <string name="text_longitud_example">Longitud: 56.123455</string>
+    <string name="guardar_formulario">Guardar</string>
 
     <string name="options_menu_sign_out">Sign Out</string>
 
