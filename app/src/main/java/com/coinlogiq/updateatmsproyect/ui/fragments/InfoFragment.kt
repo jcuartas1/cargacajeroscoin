@@ -66,10 +66,10 @@ class InfoFragment : Fragment() {
         _view.textViewInfoName.text = currentUser.displayName?.let { currentUser.displayName } ?: run {getString(R.string.info_no_name)}
 
         currentUser.photoUrl?.let {
-                Picasso.get().load(it).resize(300,300)
+                Picasso.get().load(it).resize(150,150)
                     .centerCrop().transform(CircleTransform()).into(_view.imageView)
         } ?: run {
-            Picasso.get().load(R.drawable.ic_person).resize(300,300)
+            Picasso.get().load(R.drawable.ic_person).resize(150,150)
                 .centerCrop().transform(CircleTransform()).into(_view.imageView)
         }
     }

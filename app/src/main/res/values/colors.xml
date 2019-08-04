@@ -7,6 +7,7 @@
     <color name="colorAccent">#BB86FC</color>
     <color name="colorAccentDark">#994af1</color>
     <color name="colorChatBg">#CCC</color>
+    <color name="colorGrayForm">#757575</color>
 
     <!--
     <color name="colorPrimary">#008577</color>
@@ -15,6 +16,6 @@
 
     <color name="colorPrimaryText">#FFFFFF</color>
     <color name="colorSecondaryText">#BDBDBD</color>
-    <color name="colorGooglePlus">#b71c1c</color>
-    <color name="colorGooglePlusDark">#7f0000</color>
+    <color name="colorGooglePlus">#D9211E</color>
+    <color name="colorGooglePlusDark">#BD1014</color>
 </resources>

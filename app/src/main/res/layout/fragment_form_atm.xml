@@ -1,14 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context=".ui.fragments.FormAtmFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@color/colorChatBg">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="HELLO FROM FORM"/>
+            android:layout_height="wrap_content"
+            tools:context=".ui.fragments.FormAtmFragment">
 
-</FrameLayout>
+        <TextView
+                android:id="@+id/textViewTitleFormFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_form_fragment"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/colorPrimary"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp"/>
+
+        <EditText
+                android:id="@+id/editTextLocalName"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/login_edit_text_height"
+                android:background="@drawable/edittext_rounded_white"
+                android:fontFamily="sans-serif-medium"
+                android:hint="@string/input_hint_local_name"
+                android:textSize="@dimen/login_text_size"
+                android:textColor="@color/colorSecondaryText"
+                android:textColorHint="#FFF"
+                android:paddingLeft="@dimen/login_space"
+                android:paddingRight="@dimen/login_space"
+                android:inputType="text"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTitleFormFragment"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="8dp"/>
+
+        <EditText
+                android:id="@+id/editTextDireccion"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/login_edit_text_height"
+                android:fontFamily="sans-serif-medium"
+                android:hint="@string/input_hint_local_direccion"
+                android:textSize="@dimen/login_text_size"
+                android:textColor="@color/colorSecondaryText"
+                android:textColorHint="#FFF"
+                android:paddingLeft="@dimen/login_space"
+                android:paddingRight="@dimen/login_space"
+                android:background="@drawable/edittext_rounded_white"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:inputType="text"
+                app:layout_constraintTop_toBottomOf="@+id/editTextLocalName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"/>
+
+        <TextView
+                android:id="@+id/textViewSeleccioneDueno"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/login_edit_text_height"
+                android:background="@drawable/edittext_rounded_white"
+                android:textColor="#FFF"
+                android:fontFamily="sans-serif-medium"
+                android:textSize="@dimen/login_text_size"
+                android:text="@string/selected_owner"
+                android:paddingLeft="@dimen/login_space"
+                android:paddingRight="@dimen/login_space"
+                android:paddingTop="15dp"
+                app:layout_constraintTop_toBottomOf="@+id/editTextDireccion"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"/>
+
+        <Spinner
+                android:id="@+id/spinner_dueños"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:paddingLeft="@dimen/login_space"
+                android:paddingRight="@dimen/login_space"
+                app:layout_constraintTop_toBottomOf="@+id/textViewSeleccioneDueno"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        <EditText
+                android:id="@+id/editTextidOwner"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/login_edit_text_height"
+                android:fontFamily="sans-serif-medium"
+                android:hint="@string/input_id_owner"
+                android:textSize="@dimen/login_text_size"
+                android:textColor="@color/colorSecondaryText"
+                android:textColorHint="#FFF"
+                android:paddingLeft="@dimen/login_space"
+                android:paddingRight="@dimen/login_space"
+                android:background="@drawable/edittext_rounded_white"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:inputType="text"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_dueños"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"/>
+
+        <TextView
+                android:id="@+id/textViewLatitudAtm"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/login_edit_text_height"
+                android:background="@drawable/edittext_rounded_white"
+                android:textColor="#FFF"
+                android:fontFamily="sans-serif-medium"
+                android:textSize="@dimen/login_text_size"
+                android:text="@string/text_laltitud_example"
+                android:paddingLeft="@dimen/login_space"
+                android:paddingRight="@dimen/login_space"
+                android:paddingTop="15dp"
+                app:layout_constraintTop_toBottomOf="@+id/editTextidOwner"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"/>
+
+        <TextView
+                android:id="@+id/textViewLongitudAtm"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/login_edit_text_height"
+                android:background="@drawable/edittext_rounded_white"
+                android:textColor="#FFF"
+                android:fontFamily="sans-serif-medium"
+                android:textSize="@dimen/login_text_size"
+                android:text="@string/text_longitud_example"
+                android:paddingLeft="@dimen/login_space"
+                android:paddingRight="@dimen/login_space"
+                android:paddingTop="15dp"
+                app:layout_constraintTop_toBottomOf="@+id/textViewLatitudAtm"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>
+

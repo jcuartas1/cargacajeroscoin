@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Coinlogiq Realase Load</string>
+    <string name="app_name">CoinLogiq Labs</string>
 
     <!-- Login View-->
     <string name="login_email">Email</string>
@@ -14,6 +14,8 @@
     <string name="login_go_login">Go back to Login</string>
 
 
+    <string name="title_welcome_info">BIENVENID@!!</string>
+
     <!-- TODO: Bottom Navition Menu-->
     <string name="navigation_bottom_inf">Info</string>
     <string name="navigation_bottom_form">Form</string>
@@ -25,8 +27,26 @@
 
     <string name="text_hint_chat">Type Here a message..."</string>
 
-    <string name="info_label_messages">Total messages</string>
+    <string name="info_label_messages">Total de ATM Registrados</string>
     <string name="info_no_name">Name is not available</string>
+    <string name="title_form_instructions">INSTRUCCIONES</string>
+
+    <!--TODO: Textos del formulario pasos-->
+
+    <string name="checkced_one">1 - Complete todos los campos del formulario.</string>
+    <string name="turn_on_gps">2 - Habilite los permisos del GPS.</string>
+    <string name="window_chat">5 - Utilce la ventana del chat para cualquier duda.</string>
+    <string name="internet_conect">3 - Habilite los permisos de internet</string>
+    <string name="save_form">4 - Cuando el formularion este completo oprima el boton enviar</string>
+
+    <!--TODO: Textos del formulario Registros ATM-->
+    <string name="title_form_fragment">FORMULARIO REGISTRO CAJERO</string>
+    <string name="input_hint_local_name">Ubicación / Local</string>
+    <string name="input_hint_local_direccion">Direccion:</string>
+    <string name="selected_owner">Seleccione Dueño</string>
+    <string name="input_id_owner">Ingrese ID del Cajero: ejemplo DL6Z-79</string>
+    <string name="text_laltitud_example">Latitud: -74.345677</string>
+    <string name="text_longitud_example">Longitud: 56.123455</string>
 
     <string name="options_menu_sign_out">Sign Out</string>
 

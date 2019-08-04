@@ -38,6 +38,7 @@ class MainActivity : ToolbarActivity() {
     private fun getPagerAdapter() : PagerAdapter {
         adapter = PagerAdapter(supportFragmentManager)
         adapter.addFragment(InfoFragment())
+        adapter.addFragment(FormAtmFragment())
         adapter.addFragment(ChatFragment())
         adapter.addFragment(RatesFragment())
         return adapter
@@ -68,12 +69,15 @@ class MainActivity : ToolbarActivity() {
                 R.id.bottom_nav_info ->{
                     viewPager.currentItem = 0; true
                 }
-                R.id.bottom_nav_chat ->{
+                R.id.bottom_nav_form ->{
                     viewPager.currentItem = 1; true
+                }
+                R.id.bottom_nav_chat ->{
+                    viewPager.currentItem = 2; true
                 }
 
                 R.id.bottom_nav_rates ->{
-                    viewPager.currentItem = 2; true
+                    viewPager.currentItem = 3; true
                 }
                 else -> false
             }

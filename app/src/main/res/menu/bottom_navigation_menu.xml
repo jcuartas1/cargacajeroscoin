@@ -9,6 +9,13 @@
         android:title="@string/navigation_bottom_inf"
         app:showAsAction="ifRoom"
     />
+    <item
+            android:id="@+id/bottom_nav_form"
+            android:enabled="true"
+            android:icon="@drawable/ic_form"
+            android:title="@string/navigation_bottom_form"
+            app:showAsAction="ifRoom"
+    />
 
     <item
             android:id="@+id/bottom_nav_chat"
