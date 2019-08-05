@@ -64,6 +64,9 @@ dependencies {
     //Java ReactiveX
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
 
+    //dexter
+    implementation 'com.karumi:dexter:5.0.0'
+
     //Libreria Custom
     implementation project(':mylibrary2')
 

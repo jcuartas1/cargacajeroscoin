@@ -1,10 +1,12 @@
 package com.coinlogiq.updateatmsproyect.ui.activities.login
 
+import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.coinlogiq.updateatmsproyect.R
+import com.coinlogiq.updateatmsproyect.enums.PermissionStatusEnum
 import com.coinlogiq.updateatmsproyect.ui.MainActivity
 import com.coinlogiq.updateatmsproyect.ui.extensions.*
 import com.coinlogiq.updateatmsproyect.ui.activities.sing.SingUp
@@ -18,6 +20,11 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import kotlinx.android.synthetic.main.login_activity.*
 
 
@@ -54,7 +61,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
         }
 
         btnSingUp.setOnClickListener {
-            gotoActivity<SingUp>()
+           gotoActivity<SingUp>()
             overridePendingTransition(android.R.anim.slide_in_left,android.R.anim.slide_out_right)
         }
 
@@ -131,7 +138,6 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
         }
 
     }
-
     override fun onConnectionFailed(p0: ConnectionResult) {
         toast("Connection Failed")
     }

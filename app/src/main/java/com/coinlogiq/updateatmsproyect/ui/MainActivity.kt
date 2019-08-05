@@ -1,6 +1,7 @@
 package com.coinlogiq.updateatmsproyect.ui
 
 
+import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -9,14 +10,21 @@ import androidx.appcompat.widget.Toolbar
 import androidx.viewpager.widget.ViewPager
 import com.coinlogiq.mylibrary2.ToolbarActivity
 import com.coinlogiq.updateatmsproyect.R
+import com.coinlogiq.updateatmsproyect.enums.PermissionStatusEnum
 import com.coinlogiq.updateatmsproyect.ui.activities.login.LoginActivity
 import com.coinlogiq.updateatmsproyect.ui.adapters.PagerAdapter
 import com.coinlogiq.updateatmsproyect.ui.extensions.gotoActivity
+import com.coinlogiq.updateatmsproyect.ui.extensions.toast
 import com.coinlogiq.updateatmsproyect.ui.fragments.ChatFragment
 import com.coinlogiq.updateatmsproyect.ui.fragments.FormAtmFragment
 import com.coinlogiq.updateatmsproyect.ui.fragments.InfoFragment
 import com.coinlogiq.updateatmsproyect.ui.fragments.RatesFragment
 import com.google.firebase.auth.FirebaseAuth
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : ToolbarActivity() {
