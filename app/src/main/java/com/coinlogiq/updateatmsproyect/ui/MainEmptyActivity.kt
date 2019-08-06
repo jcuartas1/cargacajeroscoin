@@ -22,7 +22,6 @@ class MainEmptyActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        checkAllPermissions()
 
         if(mAuth.currentUser == null){
             gotoActivity<LoginActivity> {
@@ -42,81 +41,4 @@ class MainEmptyActivity : Activity() {
         finish()
     }
 
-    private fun checkAllPermissions(){
-        Dexter.withActivity(this)
-            .withPermissions(
-                Manifest.permission.CAMERA,
-                Manifest.permission.INTERNET,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-            .withListener(object: MultiplePermissionsListener {
-                override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
-                    report?.let{
-                        report.areAllPermissionsGranted()
-                        setPermissionStatus(PermissionStatusEnum.GRANTED)
-                        /*for(permision in report.grantedPermissionResponses){
-                            when(permision.permissionName){
-                                Manifest.permission.CAMERA -> setPermissionStatus(PermissionStatusEnum.GRANTED)
-                                Manifest.permission.INTERNET -> setPermissionStatus(PermissionStatusEnum.GRANTED)
-                                Manifest.permission.ACCESS_COARSE_LOCATION -> setPermissionStatus(PermissionStatusEnum.GRANTED)
-                                Manifest.permission.ACCESS_FINE_LOCATION -> setPermissionStatus(PermissionStatusEnum.GRANTED)
-                            }
-                        }*/
-                        for(permission in report.deniedPermissionResponses){
-                            when(permission.permissionName){
-                                Manifest.permission.CAMERA ->{
-                                    if(permission.isPermanentlyDenied){
-                                        setPermissionStatus(PermissionStatusEnum.PERMENTLY_DENIED)
-                                    }else{
-                                        setPermissionStatus(PermissionStatusEnum.DENIED)
-                                    }
-                                }
-                                Manifest.permission.INTERNET ->{
-                                    if(permission.isPermanentlyDenied){
-                                        setPermissionStatus(PermissionStatusEnum.PERMENTLY_DENIED)
-                                    }else{
-                                        setPermissionStatus(PermissionStatusEnum.DENIED)
-                                    }
-                                }
-                                Manifest.permission.ACCESS_COARSE_LOCATION ->{
-                                    if(permission.isPermanentlyDenied){
-                                        setPermissionStatus(PermissionStatusEnum.PERMENTLY_DENIED)
-                                    }else{
-                                        setPermissionStatus(PermissionStatusEnum.DENIED)
-                                    }
-                                }
-                                Manifest.permission.ACCESS_FINE_LOCATION ->{
-                                    if(permission.isPermanentlyDenied){
-                                        setPermissionStatus(PermissionStatusEnum.PERMENTLY_DENIED)
-                                    }else{
-                                        setPermissionStatus(PermissionStatusEnum.DENIED)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                override fun onPermissionRationaleShouldBeShown(
-                    permissions: MutableList<PermissionRequest>?,
-                    token: PermissionToken?
-                ) {
-                    token?.continuePermissionRequest()
-                }
-
-            })
-    }
-
-    private fun setPermissionStatus(status: PermissionStatusEnum){
-        when(status){
-            PermissionStatusEnum.GRANTED ->{
-                toast("Permisos OK")
-            }
-            PermissionStatusEnum.DENIED ->{
-                toast("Permisos Denegados")
-            }
-            PermissionStatusEnum.PERMENTLY_DENIED ->{
-                toast("Permisos permanentemente denegados")
-            }
-        }
-    }
 }

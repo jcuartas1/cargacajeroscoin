@@ -3,10 +3,14 @@ package com.coinlogiq.updateatmsproyect.ui
 
 import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import com.coinlogiq.mylibrary2.ToolbarActivity
 import com.coinlogiq.updateatmsproyect.R
@@ -19,6 +23,7 @@ import com.coinlogiq.updateatmsproyect.ui.fragments.ChatFragment
 import com.coinlogiq.updateatmsproyect.ui.fragments.FormAtmFragment
 import com.coinlogiq.updateatmsproyect.ui.fragments.InfoFragment
 import com.coinlogiq.updateatmsproyect.ui.fragments.RatesFragment
+import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.firebase.auth.FirebaseAuth
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -33,6 +38,14 @@ class MainActivity : ToolbarActivity() {
 
     private lateinit var adapter: PagerAdapter
 
+    private val TAG ="PermmissionDemo"
+
+    private val REQUEST_CODE = 101
+    private val permisoFineLocation = Manifest.permission.ACCESS_FINE_LOCATION
+    private val permisoCourseLocation = Manifest.permission.ACCESS_COARSE_LOCATION
+
+    var fusedLoctaionClient: FusedLocationProviderClient? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -41,6 +54,8 @@ class MainActivity : ToolbarActivity() {
 
         setUpViewPager(getPagerAdapter())
         setUpBottomNavigationBar()
+
+        //checkPermissions()
     }
 
     private fun getPagerAdapter() : PagerAdapter {
@@ -108,6 +123,34 @@ class MainActivity : ToolbarActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    /*private fun checkPermissions(){
+        val permisssion = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+
+        if(permisssion != PackageManager.PERMISSION_GRANTED){
+            Log.d("Permission Denied", permisssion.toString())
+            makeRequest()
+      }
+    }
+
+    private fun makeRequest(){
+        ActivityCompat.requestPermissions(this,
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                REQUEST_CODE)
+    }*/
+
+
+    /*override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when(requestCode){
+            REQUEST_CODE -> {
+                if(grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED){
+                    Log.i(TAG,"Permission has been Denied by usser")
+                }else{
+                    Log.i(TAG, "Permission has been Granted by usse")
+                }
+            }
+        }
+    }*/
 
 
 }
