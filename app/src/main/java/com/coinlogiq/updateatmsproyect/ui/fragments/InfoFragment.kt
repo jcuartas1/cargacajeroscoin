@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.coinlogiq.updateatmsproyect.R
-import com.coinlogiq.updateatmsproyect.model.TotalMessagesEvent
+import com.coinlogiq.updateatmsproyect.model.messages.TotalMessagesEvent
 import com.coinlogiq.updateatmsproyect.ui.extensions.toast
 import com.coinlogiq.updateatmsproyect.utils.CircleTransform
 import com.coinlogiq.updateatmsproyect.utils.RxBus

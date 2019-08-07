@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.coinlogiq.updateatmsproyect.R
-import com.coinlogiq.updateatmsproyect.model.NewRateEvent
-import com.coinlogiq.updateatmsproyect.model.Rate
+import com.coinlogiq.updateatmsproyect.model.rates.NewRateEvent
+import com.coinlogiq.updateatmsproyect.model.rates.Rate
 import com.coinlogiq.updateatmsproyect.ui.adapters.RatesAdapter
 import com.coinlogiq.updateatmsproyect.ui.dialogues.RateDialog
 import com.coinlogiq.updateatmsproyect.ui.extensions.toast

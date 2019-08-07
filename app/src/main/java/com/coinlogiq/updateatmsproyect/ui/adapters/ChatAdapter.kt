@@ -4,7 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.coinlogiq.updateatmsproyect.R
-import com.coinlogiq.updateatmsproyect.model.Message
+import com.coinlogiq.updateatmsproyect.model.messages.Message
 import com.coinlogiq.updateatmsproyect.ui.extensions.inflate
 import com.coinlogiq.updateatmsproyect.utils.CircleTransform
 import com.squareup.picasso.Picasso

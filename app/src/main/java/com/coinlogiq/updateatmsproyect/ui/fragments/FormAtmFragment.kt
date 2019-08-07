@@ -16,19 +16,50 @@ import android.widget.Spinner
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.coinlogiq.updateatmsproyect.R
+import com.coinlogiq.updateatmsproyect.model.form.Form
+import com.coinlogiq.updateatmsproyect.model.form.NewFormEvent
+import com.coinlogiq.updateatmsproyect.model.logs.Logs
 import com.coinlogiq.updateatmsproyect.ui.extensions.toast
+import com.coinlogiq.updateatmsproyect.utils.RxBus
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.*
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_form_atm.view.*
+import java.util.*
+import java.util.EventListener
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 class FormAtmFragment : Fragment(){
 
+    /*
+    * Variables base de firebase*/
+
+    private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
+    private lateinit var currentUser: FirebaseUser
+
+    private val store: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private lateinit var formDBRef: CollectionReference
+    private lateinit var logsDBRef: CollectionReference
+
+    private var formsSubscription: ListenerRegistration? = null
+    private lateinit var formBusListener: Disposable
+
+
+    private val formList: ArrayList<Form> = ArrayList()
+
+    private var atmValidation: Boolean = false
+
     private lateinit var _view: View
 
     private lateinit var spinner: Spinner
+    private var owner: String = ""
 
     var locationRequest: LocationRequest?= null
 
@@ -65,6 +96,15 @@ class FormAtmFragment : Fragment(){
         fusedLoctaionClient = FusedLocationProviderClient(activity!!.applicationContext)
         inicializarLocationRequest()
 
+        //Funcion para crear la base de datos
+        setUpFormB()
+        setUpCurrentUser()
+
+        suscribeToNewForms()
+        //suscribeToForms()
+
+        setUpbtnGuardar()
+
         return _view
     }
 
@@ -81,10 +121,109 @@ class FormAtmFragment : Fragment(){
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 val type = p0?.getItemAtPosition((p2)).toString()
-                activity!!.toast("Aqui esta $type")
+                owner = type
+                activity!!.toast("Aqui esta $owner")
             }
         }
 
+    }
+
+    private fun saveLogs(logs: Logs){
+        val newLogs = HashMap<String, Any>()
+        newLogs["userId"] = logs.userId
+        newLogs["operacion"] = logs.operacion
+        newLogs["atmId"] = logs.atmId
+        newLogs["observacion"] = logs.observacion
+        newLogs["creatLogDate"] = logs.creatLogDate
+
+        logsDBRef.add(newLogs)
+            .addOnCompleteListener {
+                activity!!.toast("Logs added!")
+            }
+            .addOnFailureListener {
+                activity!!.toast("Logs error, try again!")
+            }
+    }
+
+    private fun saveform(formulario: Form){
+        val newForm = HashMap<String, Any>()
+        newForm["atmUbicacion"] = formulario.atmUbicacion
+        newForm["atmDireccion"] = formulario.atmDireccion
+        newForm["atmDueno"] = formulario.atmDueno
+        newForm["atmId"] = formulario.atmId
+        newForm["atmLongitud"] = formulario.atmLongitud
+        newForm["atmLatitud"] = formulario.atmLatitud
+        /*newForm["buy_btc_percent"] = formulario.buy_btc_percent
+        newForm["buy_dash_percent"] = formulario.buy_dash_percent
+        newForm["buy_ltc_percent"] = formulario.buy_ltc_percent
+        newForm["buy_eth_percent"] = formulario.buy_eth_percent
+        newForm["sell_btc_percent"] = formulario.sell_btc_percent
+        newForm["sell_dash_percent"] = formulario.sell_dash_percent
+        newForm["sell_ltc_percent"] = formulario.sell_ltc_percent
+        newForm["sell_eth_percent"] = formulario.sell_eth_percent*/
+        newForm["creatDate"] = formulario.creatDate
+
+
+            formDBRef.add(newForm)
+                .addOnCompleteListener{
+                    activity!!.toast("Form added!")
+                }
+                .addOnFailureListener {
+                    activity!!.toast("Form error, try again!")
+                }
+     }
+
+    private fun setUpbtnGuardar(){
+        _view.btn_guardar.setOnClickListener {
+            val textLocal = _view.editTextLocalName.text.toString()
+            if(textLocal.isNotEmpty()){
+                val form = Form(
+                    textLocal,
+                    _view.editTextDireccion.text.toString(),
+                    owner,
+                    _view.editTextidOwner.text.toString(),
+                    _view.textViewLongitudAtm.text.toString(),
+                    _view.textViewLatitudAtm.text.toString(),
+                    Date()
+                )
+                formsSubscription = formDBRef.whereEqualTo("atmId",_view.editTextidOwner.text.toString())
+                    .addSnapshotListener(object : EventListener, com.google.firebase.firestore.EventListener<QuerySnapshot>{
+                        override fun onEvent(p0: QuerySnapshot?, p1: FirebaseFirestoreException?) {
+                            p1?.let {
+                                activity!!.toast("Exception!")
+                                return
+                            }
+                            p0?.let {
+                                Log.d("suscribe", it.isEmpty.toString())
+                                if(it.isEmpty){
+                                    RxBus.publish(NewFormEvent(form))
+                                }else{
+                                    activity!!.toast("EL ATM YA ESTA REGISTRADO")
+                                }
+                            }
+
+                        }
+
+                    })
+            }
+        }
+    }
+
+
+    private fun suscribeToNewForms(){
+        formBusListener = RxBus.listen(NewFormEvent::class.java).subscribe {
+            saveform(it.form)
+        }
+    }
+
+
+    private fun setUpFormB(){
+        formDBRef  = store.collection("form")
+        logsDBRef = store.collection("logs")
+    }
+
+    private fun setUpCurrentUser(){
+        currentUser = mAuth.currentUser!!
     }
 
     private fun validarPermisos(): Boolean{
@@ -115,13 +254,6 @@ class FormAtmFragment : Fragment(){
 
     @SuppressLint("MissingPermission")
     private fun obtenerUbicacion(){
-        /* fusedLoctaionClient?.lastLocation?.addOnSuccessListener { location ->
-            Log.d("Ubicacion", location.latitude.toString())
-            if(location != null){
-                activity!!.toast(location.latitude.toString() + " - " + location.longitude.toString())
-            }
-        }*/
-
         callback = object : LocationCallback(){
             override fun onLocationResult(locationResult: LocationResult?) {
                 super.onLocationResult(locationResult)
@@ -142,8 +274,10 @@ class FormAtmFragment : Fragment(){
     }
 
     override fun onDestroyView() {
-
+        formBusListener.dispose()
+        formsSubscription?.remove()
         super.onDestroyView()
+
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -175,8 +309,5 @@ class FormAtmFragment : Fragment(){
         super.onPause()
         detenerActualizacionUbicacion()
     }
-
-
-
 
 }

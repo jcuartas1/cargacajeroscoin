@@ -6,8 +6,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.coinlogiq.updateatmsproyect.R
-import com.coinlogiq.updateatmsproyect.model.NewRateEvent
-import com.coinlogiq.updateatmsproyect.model.Rate
+import com.coinlogiq.updateatmsproyect.model.rates.NewRateEvent
+import com.coinlogiq.updateatmsproyect.model.rates.Rate
 import com.coinlogiq.updateatmsproyect.ui.extensions.toast
 import com.coinlogiq.updateatmsproyect.utils.RxBus
 import com.google.firebase.auth.FirebaseAuth
@@ -33,7 +33,13 @@ class RateDialog : DialogFragment(){
                 val textRate = view.editTextRateFeedBack.text.toString()
                 if (textRate.isNotEmpty()){
                     val imgUrl = currentUser.photoUrl?.toString() ?: run { "" }
-                    val rate = Rate(currentUser.uid,textRate, view.ratingBarFeedBack.rating, Date(),imgUrl)
+                    val rate = Rate(
+                        currentUser.uid,
+                        textRate,
+                        view.ratingBarFeedBack.rating,
+                        Date(),
+                        imgUrl
+                    )
                     RxBus.publish(NewRateEvent(rate))
                 }
             }

@@ -1,4 +1,4 @@
-package com.coinlogiq.updateatmsproyect.model
+package com.coinlogiq.updateatmsproyect.model.messages
 
 import java.util.*
 

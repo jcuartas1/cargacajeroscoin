@@ -9,15 +9,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.coinlogiq.updateatmsproyect.R
-import com.coinlogiq.updateatmsproyect.model.Message
-import com.coinlogiq.updateatmsproyect.model.TotalMessagesEvent
+import com.coinlogiq.updateatmsproyect.model.messages.Message
+import com.coinlogiq.updateatmsproyect.model.messages.TotalMessagesEvent
 import com.coinlogiq.updateatmsproyect.ui.adapters.ChatAdapter
 import com.coinlogiq.updateatmsproyect.ui.extensions.toast
 import com.coinlogiq.updateatmsproyect.utils.RxBus
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
-import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.fragment_chat.view.*
 import kotlinx.android.synthetic.main.fragment_chat.view.editTextMessage
 import java.util.*
@@ -78,7 +77,8 @@ class ChatFragment : Fragment() {
             val messaText = _view.editTextMessage.text.toString()
             if(messaText.isNotEmpty()){
                 val photo = currentUser.photoUrl?.let { currentUser.photoUrl.toString() } ?: run { "" }
-                val message = Message(currentUser.uid,messaText,photo,Date())
+                val message =
+                    Message(currentUser.uid, messaText, photo, Date())
                 saveMessage(message)
                 _view.editTextMessage.setText("")
             }
