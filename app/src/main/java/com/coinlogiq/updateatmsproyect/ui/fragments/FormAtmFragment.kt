@@ -3,8 +3,17 @@ package com.coinlogiq.updateatmsproyect.ui.fragments
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity.RESULT_OK
+import android.content.ContentResolver
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.os.Handler
+import android.provider.MediaStore
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,6 +24,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import com.coinlogiq.updateatmsproyect.R
 import com.coinlogiq.updateatmsproyect.model.form.Form
 import com.coinlogiq.updateatmsproyect.model.form.NewFormEvent
@@ -30,6 +40,8 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_form_atm.view.*
+import java.io.File
+import java.text.SimpleDateFormat
 import java.util.*
 import java.util.EventListener
 import kotlin.collections.ArrayList
@@ -51,21 +63,23 @@ class FormAtmFragment : Fragment(){
     private var formsSubscription: ListenerRegistration? = null
     private lateinit var formBusListener: Disposable
 
-
-    private val formList: ArrayList<Form> = ArrayList()
-
-    private var atmValidation: Boolean = false
-
     private lateinit var _view: View
+
+    private var urlFotoActual = ""
 
     private lateinit var spinner: Spinner
     private var owner: String = ""
 
     var locationRequest: LocationRequest?= null
 
+    private val REQUEST_CODE_CAMERA = 1
+
     private val REQUEST_CODE = 101
     private val permisoFineLocation = Manifest.permission.ACCESS_FINE_LOCATION
     private val permisoCourseLocation = Manifest.permission.ACCESS_COARSE_LOCATION
+    private val permisoCamera = Manifest.permission.CAMERA
+    private val permisoWriteStorage = Manifest.permission.WRITE_EXTERNAL_STORAGE
+    private val permisoReadStorage = Manifest.permission.READ_EXTERNAL_STORAGE
 
     var fusedLoctaionClient: FusedLocationProviderClient? = null
 
@@ -105,7 +119,76 @@ class FormAtmFragment : Fragment(){
 
         setUpbtnGuardar()
 
+        setTomarFoto()
+
         return _view
+    }
+
+    private fun setTomarFoto() {
+        _view.imgBtnCamera.setOnClickListener {
+            //dispararIntentFoto()
+            pedirPermisoCamera()
+        }
+    }
+
+    private fun dispararIntentFoto(){
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+        if(intent.resolveActivity(activity!!.packageManager) != null ){
+            var archivoFoto:File? = null
+            archivoFoto = crearArchivoImagen()
+            if(archivoFoto != null){
+                val urlFoto = FileProvider.getUriForFile(activity!!.applicationContext,
+                    "com.coinlogiq.updateatmsproyect.fileprovider",archivoFoto)
+                intent.putExtra(MediaStore.EXTRA_OUTPUT,urlFoto)
+                startActivityForResult(intent,REQUEST_CODE_CAMERA)
+            }
+
+        }
+    }
+
+    private fun crearArchivoImagen(): File {
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val nombreArchivoImage = "JPEG_" + timeStamp + "_"
+
+        //val directorio = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val directorio = Environment.getExternalStorageDirectory()
+        val dirPictures = File(directorio.absolutePath + "/Pictures/")
+        val imagen = File.createTempFile(nombreArchivoImage, ".jpg",dirPictures)
+
+        urlFotoActual = "file://" + imagen.absolutePath
+
+        return imagen
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(requestCode){
+            REQUEST_CODE_CAMERA ->{
+                if(resultCode == RESULT_OK){
+                    /*
+                    val extras = data?.extras
+                    val imageBitmap = extras!!.get("data") as Bitmap
+                    */
+                    val uri = Uri.parse(urlFotoActual)
+                    val stream = activity!!.contentResolver.openInputStream(uri)
+                    val imageBitmap = BitmapFactory.decodeStream(stream)
+                    _view.imgViewCamera.setImageBitmap(imageBitmap)
+
+                    anadirImagenGaleria()
+                }else{
+
+                }
+            }
+        }
+    }
+
+    private fun anadirImagenGaleria(){
+        val intent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+        val file = File(urlFotoActual)
+        val uri = Uri.fromFile(file)
+        intent.setData(uri)
+        activity!!.applicationContext.sendBroadcast(intent)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -176,17 +259,19 @@ class FormAtmFragment : Fragment(){
     private fun setUpbtnGuardar(){
         _view.btn_guardar.setOnClickListener {
             val textLocal = _view.editTextLocalName.text.toString()
-            if(textLocal.isNotEmpty()){
+            val textDir = _view.editTextDireccion.text.toString()
+            val textIdATM = view!!.editTextidOwner.text.toString()
+            if(textLocal.isNotEmpty() && textDir.isNotEmpty() && textIdATM.isNotEmpty()){
                 val form = Form(
                     textLocal,
-                    _view.editTextDireccion.text.toString(),
+                    textDir,
                     owner,
-                    _view.editTextidOwner.text.toString(),
+                    textIdATM.toUpperCase(),
                     _view.textViewLongitudAtm.text.toString(),
                     _view.textViewLatitudAtm.text.toString(),
                     Date()
                 )
-                formsSubscription = formDBRef.whereEqualTo("atmId",_view.editTextidOwner.text.toString())
+                formsSubscription = formDBRef.whereEqualTo("atmId", textIdATM)
                     .addSnapshotListener(object : EventListener, com.google.firebase.firestore.EventListener<QuerySnapshot>{
                         override fun onEvent(p0: QuerySnapshot?, p1: FirebaseFirestoreException?) {
                             p1?.let {
@@ -197,18 +282,31 @@ class FormAtmFragment : Fragment(){
                                 Log.d("suscribe", it.isEmpty.toString())
                                 if(it.isEmpty){
                                     RxBus.publish(NewFormEvent(form))
+                                    Handler().postDelayed({
+                                        limpiarFormulario()
+                                    },1000)
                                 }else{
-                                    activity!!.toast("EL ATM YA ESTA REGISTRADO")
+                                    Handler().postDelayed({
+                                        activity!!.toast("EL ATM YA ESTA REGISTRADO")
+                                    },2000)
                                 }
                             }
 
                         }
 
                     })
+            }else{
+                activity!!.toast("Por Favor complete todos los campos")
             }
         }
+
     }
 
+    private fun limpiarFormulario(){
+        _view.editTextLocalName.setText("")
+        _view.editTextDireccion.setText("")
+        _view.editTextidOwner.setText("")
+    }
 
     private fun suscribeToNewForms(){
         formBusListener = RxBus.listen(NewFormEvent::class.java).subscribe {
@@ -248,8 +346,26 @@ class FormAtmFragment : Fragment(){
         }
     }
 
+    private fun pedirPermisoCamera(){
+        val racional = ContextCompat.checkSelfPermission(_view.context,permisoCamera)
+
+        if(racional != PackageManager.PERMISSION_GRANTED){
+            solicitudPermisoCamera()
+        }else{
+            solicitudPermisoCamera()
+        }
+    }
+
+    private fun solicitudPermisoCamera(){
+        requestPermissions(arrayOf(
+            permisoCamera,
+            permisoReadStorage,
+            permisoWriteStorage), REQUEST_CODE_CAMERA)
+    }
+
     private fun solicitudPermiso(){
-        requestPermissions(arrayOf(permisoFineLocation, permisoCourseLocation), REQUEST_CODE)
+        requestPermissions(arrayOf(permisoFineLocation,
+            permisoCourseLocation), REQUEST_CODE)
     }
 
     @SuppressLint("MissingPermission")
@@ -283,10 +399,23 @@ class FormAtmFragment : Fragment(){
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when(requestCode){
             REQUEST_CODE -> {
-                if(grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if(grantResults.isNotEmpty() &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     //obtener Ubicacion
+                    obtenerUbicacion()
                 }else{
                     activity!!.toast("No Se otorgaron los permisos necesarios")
+                }
+            }
+            REQUEST_CODE_CAMERA -> {
+                if(grantResults.isNotEmpty() &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                    grantResults[1] == PackageManager.PERMISSION_GRANTED &&
+                    grantResults[2] == PackageManager.PERMISSION_GRANTED){
+                    //Disparar intent foto
+                    dispararIntentFoto()
+                }else{
+                    activity!!.toast("No Se otorgaron los permisos necesarios para la camara")
                 }
             }
         }
