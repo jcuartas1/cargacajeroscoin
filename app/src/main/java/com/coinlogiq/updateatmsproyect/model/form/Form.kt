@@ -9,6 +9,7 @@ data class Form(
     val atmId: String = "",
     val atmLongitud: String = "",
     val atmLatitud: String = "",
+    val imgPath: String="",
     val creatDate: Date = Date(),
     val buy_btc_percent: String = "",
     val buy_dash_percent: String = "",
