@@ -44,17 +44,17 @@ class InfoFragment : Fragment() {
         setUpCurrentUserInfoUI()
 
         //Firebase Style
-        //subscribeTotalMessagesFirebaseStyle()
+        subscribeTotalAtmFirebaseStyle()
 
         //Total message rx bus reactive android
-        subscribeTotalMessagesEventBusReactiveStyle()
+        //subscribeTotalMessagesEventBusReactiveStyle()
 
         return _view
     }
 
 
     private fun setUpChatDB(){
-        chatDBRef = store.collection("chat")
+        chatDBRef = store.collection("form")
     }
 
     private fun setUpCurrentUser(){
@@ -74,7 +74,7 @@ class InfoFragment : Fragment() {
         }
     }
 
-    private fun subscribeTotalMessagesFirebaseStyle(){
+    private fun subscribeTotalAtmFirebaseStyle(){
         chatSubscription = chatDBRef.addSnapshotListener(object : EventListener, com.google.firebase.firestore.EventListener<QuerySnapshot>{
             override fun onEvent(snapshot: QuerySnapshot?, exception: FirebaseFirestoreException?) {
                 exception?.let {

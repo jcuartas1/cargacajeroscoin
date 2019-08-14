@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "534173289735-pium2pmikcne68ioapblo1hibjeufjp2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.coinlogiq.updateatmsproyect",
+            "certificate_hash": "4bec92ab0dd75f0947f4ed087424d19e189d78d4"
+          }
+        },
+        {
           "client_id": "534173289735-nembrrl6fdqp0sqspprqrcj8c84pnkms.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
